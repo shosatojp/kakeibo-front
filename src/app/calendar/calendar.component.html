@@ -1,9 +1,16 @@
-<p>calendar works!</p>
 <table>
     <tr>
+        <th></th>
         <th *ngFor="let category of categories">{{category}}</th>
     </tr>
-    <tr *ngFor="let obj of data">
-        <td *ngFor="let category of categories">{{obj.date.getDate()}}</td>
+    <tr *ngFor="let obj of entrydata.data">
+        <td>{{obj.date.getDate()}}</td>
+        <td *ngFor="let category of categories">
+            <mat-chip-list *ngFor="let entry of obj.categories[category]">
+                <app-entry [entry]="entry"></app-entry>
+                <!-- <mat-chip>{{entry.title}} {{entry.price}}円</mat-chip> -->
+            </mat-chip-list>
+        </td>
     </tr>
 </table>
+<button mat-button (click)="show()">show</button>

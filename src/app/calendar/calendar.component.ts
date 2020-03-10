@@ -1,4 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AuthenticatorService } from '../authenticator.service';
+import { EntrydataService } from '../entrydata.service';
+import { Entry, Categories } from '../definitions';
 
 @Component({
     selector: 'app-calendar',
@@ -8,22 +12,27 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CalendarComponent implements OnInit {
     @Input() month: number;
     @Input() year: number;
-    data: {
-        date: Date,
-    }[] = [];
-    categories: {}[] = ["hoge","hgie"];
-    constructor() {
-        // set day
+
+    categories: string[] = [];
+    constructor(private http: HttpClient,
+        private authenticator: AuthenticatorService,
+        public entrydata: EntrydataService) {
     }
 
     ngOnInit(): void {
-        const first_day = new Date(this.year, this.month, 1);
-        do {
-            this.data.push({
-                date: new Date(first_day)
-            });
-            first_day.setDate(first_day.getDate() + 1);
-        } while (first_day.getDate() != 1);
+        // this.show();
     }
+
+    async show() {
+        await this.entrydata.update(this.year, this.month);
+
+        this.entrydata.getCategories().then(data => {
+            console.log(data);
+            this.categories = data;
+        });
+
+        // console.log(await this.entrydata.getEntries(this.year, this.month));
+    }
+
 
 }

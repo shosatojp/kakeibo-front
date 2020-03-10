@@ -1,5 +1,37 @@
-<div class="date-input-container">
-    <input class="date-input" [matDatepicker]="picker" [(ngModel)]="date" placeholder="Choose a date">
-    <mat-datepicker #picker></mat-datepicker>
-    <div class="button" (click)="picker.open()"></div>
+<h2>追加</h2>
+<div>
+    <mat-form-field>
+        <mat-label>日付</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+<div>
+    <mat-form-field class="">
+        <mat-label>金額</mat-label>
+        <input matInput [(ngModel)]="price" type="number">
+    </mat-form-field>
+</div>
+<div>
+    <mat-form-field class="">
+        <mat-label>商品名</mat-label>
+        <input matInput [(ngModel)]="title">
+    </mat-form-field>
+</div>
+<div>
+    <mat-form-field class="example-full-width">
+        <input type="text" placeholder="分類" matInput [(ngModel)]="category"
+            [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of categories" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
+<div>
+    <button mat-button (click)="submit()" color="primary" 
+    [disabled]="!(date && price && title && category)">登録</button>
+    <button mat-button (click)="onNoClick()">終了</button>
 </div>
