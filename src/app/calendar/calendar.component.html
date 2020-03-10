@@ -1,0 +1,9 @@
+<p>calendar works!</p>
+<table>
+    <tr>
+        <th *ngFor="let category of categories">{{category}}</th>
+    </tr>
+    <tr *ngFor="let obj of data">
+        <td *ngFor="let category of categories">{{obj.date.getDate()}}</td>
+    </tr>
+</table>
