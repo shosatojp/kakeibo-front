@@ -9,6 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Entry } from '../definitions';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { EntrydataService } from '../entrydata.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Injectable()
@@ -40,7 +41,8 @@ export class InputDataComponent implements OnInit {
         private dateAdapter: DateAdapter<NativeDateAdapter>,
         public dialogRef: MatDialogRef<InputDataComponent>,
         @Inject(MAT_DIALOG_DATA) public data: Entry,
-        public entrydata: EntrydataService) {
+        public entrydata: EntrydataService,
+        private _snackBar: MatSnackBar) {
         dateAdapter.setLocale('ja-JP');
         if (data['prevInputData']) {
             this.date = new Date(data['prevInputData']['date']);
@@ -73,11 +75,21 @@ export class InputDataComponent implements OnInit {
         this.price = undefined;
         this.category = '';
 
-        await this.entrydata.update(this.date.getFullYear(), this.date.getMonth());
+        await this.entrydata.update(this.date.getFullYear(), this.date.getMonth() + 1);
+
+        this.openSnackBar('登録しました', 'OK');
     }
+
+
 
     onNoClick(): void {
         this.dialogRef.close();
+    }
+
+    openSnackBar(message: string, action: string) {
+        this._snackBar.open(message, action, {
+            duration: 2000,
+        });
     }
 }
 

@@ -1,4 +1,5 @@
 export interface Entry {
+    id: number,
     title: string,
     date: number,
     price: number,
@@ -7,6 +8,3 @@ export interface Entry {
     category: string,
     createdBy: number,
 };
-export interface Categories {
-    [category: string]: Entry[]
-}

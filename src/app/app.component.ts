@@ -4,21 +4,21 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { InputDataComponent } from './input-data/input-data.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { AuthenticatorService } from './authenticator.service';
-import { Categories, Entry } from './definitions';
+import { Entry } from './definitions';
 
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    providers: [CalendarComponent]
 })
 export class AppComponent {
     title = 'kakeibo';
     constructor(public dialog: MatDialog,
-        private authenticator: AuthenticatorService,
-        private calendar: CalendarComponent) {
-        authenticator.auth().then(() => { });
+        private authenticator: AuthenticatorService) {
+        authenticator.auth().then(() => {
+            
+        });
     }
 
     prevInputData: Entry;

@@ -1,16 +1,24 @@
+<button mat-button (click)="showPrevMonth()">先月</button>
+<button mat-button (click)="showNextMonth()">来月</button>
 <table>
     <tr>
-        <th></th>
-        <th *ngFor="let category of categories">{{category}}</th>
+        <th class="header">{{year}}年 {{month}}月</th>
+        <th class="header" *ngFor="let category of entrydata.categories">{{category}}</th>
+        <th class="header">合計</th>
     </tr>
     <tr *ngFor="let obj of entrydata.data">
-        <td>{{obj.date.getDate()}}</td>
-        <td *ngFor="let category of categories">
-            <mat-chip-list *ngFor="let entry of obj.categories[category]">
+        <td class="header">{{obj.date.getDate()}}日 ({{getDayOfWeek(obj.date)}})</td>
+        <td class="price" *ngFor="let category of obj.categories" (click)="openDialog(obj.date,category.category)">
+            <mat-chip-list *ngFor="let entry of category.entries">
                 <app-entry [entry]="entry"></app-entry>
-                <!-- <mat-chip>{{entry.title}} {{entry.price}}円</mat-chip> -->
             </mat-chip-list>
         </td>
+        <td class="price header">{{sumDate(obj.date.getDate())}}円</td>
+    </tr>
+    <tr>
+        <td class="header">合計</td>
+        <td class="price header" *ngFor="let category of entrydata.categories">{{sumCategory(category)}}円</td>
+        <td class="price header">{{sumAll()}}円</td>
     </tr>
 </table>
 <button mat-button (click)="show()">show</button>

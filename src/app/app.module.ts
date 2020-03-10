@@ -20,7 +20,8 @@ import { EntryComponent } from './entry/entry.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
     declarations: [
         AppComponent,
@@ -45,6 +46,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatTableModule,
         MatChipsModule,
         MatTooltipModule,
+        MatSnackBarModule,
+        MatIconModule,
     ],
     providers: [
         AuthenticatorService,

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Entry } from '../definitions';
+import { EntrydataService } from '../entrydata.service';
 
 @Component({
     selector: 'app-entry',
@@ -10,9 +11,15 @@ import { Entry } from '../definitions';
 export class EntryComponent implements OnInit {
     @Input() entry: Entry;
     createdByUserName: string = '';
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,
+        private entrydata: EntrydataService) { }
 
+    hover: boolean = false;
     ngOnInit(): void {
+    }
+
+    async onMouseEnter() {
+        this.getCreatedByUserName();
     }
 
     async getCreatedByUserName() {
@@ -21,5 +28,11 @@ export class EntryComponent implements OnInit {
                 userId: String(this.entry.createdBy)
             }
         }).toPromise())['userName'];
+    }
+
+    async remove() {
+        this.entrydata.removeEntry(this.entry);
+        const date = new Date(this.entry.date);
+        this.entrydata.update(date.getFullYear(), date.getMonth() + 1);
     }
 }

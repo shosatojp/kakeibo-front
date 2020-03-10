@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Entry, Categories } from './definitions';
+import { Entry } from './definitions';
 import { AuthenticatorService } from './authenticator.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -14,23 +14,27 @@ export class EntrydataService {
 
     data: {
         date: Date,
-        categories: Categories,
+        categories: {
+            entries: Entry[],
+            category: string,
+        }[],
     }[] = [];
+    categories: string[] = [];
 
     async update(year: number, month: number) {
         const entries = await this.getEntries(year, month);
-        const categories = await this.getCategories();
-        const first_day = new Date(year, month, 1);
+        const categories = this.categories = await this.getCategories();
+        const first_day = new Date(year, month - 1, 1);
         this.data = [];
         do {
-            const categories_data: Categories = {};
-            for (const c of categories) {
-                categories_data[c] = entries.filter(e =>
-                    e.category == c && new Date(e.date).getDate() == first_day.getDate())
-            }
             this.data.push({
                 date: new Date(first_day),
-                categories: categories_data
+                categories: categories.map(c => {
+                    return {
+                        category: c,
+                        entries: entries.filter(e => e.category == c && new Date(e.date).getDate() == first_day.getDate())
+                    }
+                })
             });
             first_day.setDate(first_day.getDate() + 1);
         } while (first_day.getDate() != 1);
@@ -51,6 +55,18 @@ export class EntrydataService {
             params: {
                 year: String(year),
                 month: String(month)
+            },
+            headers: {
+                userName: this.authenticator.userName,
+                sessionId: this.authenticator.sessionId,
+            }
+        }).toPromise());
+    }
+
+    async removeEntry(entry: Entry) {
+        return (await this.http.delete('/api/v1/entry', {
+            params: {
+                id: String(entry.id)
             },
             headers: {
                 userName: this.authenticator.userName,
