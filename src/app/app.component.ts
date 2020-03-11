@@ -16,7 +16,8 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
     title = 'kakeibo';
-    constructor(public dialog: MatDialog,
+    constructor(
+        public dialog: MatDialog,
         public authenticator: AuthenticatorService,
         private router: Router) {
     }

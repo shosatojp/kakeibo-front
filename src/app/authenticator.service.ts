@@ -7,8 +7,10 @@ import { Router } from '@angular/router';
 })
 export class AuthenticatorService {
 
-    constructor(private http: HttpClient,
-        private router: Router) { }
+    constructor(
+        private http: HttpClient,
+        private router: Router
+    ) { }
 
     userName: string = localStorage.getItem('userName') || '';
     password: string = '';

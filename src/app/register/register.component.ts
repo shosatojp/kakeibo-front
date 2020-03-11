@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit {
                     userName: this.userName,
                     password: this.password,
                 },
-                observe:'response'
+                observe: 'response'
             }).subscribe(async response => {
                 if (response.status == 200) {
                     await this.login();
@@ -65,7 +65,7 @@ export class RegisterComponent implements OnInit {
     async login() {
         this.authenticator.userName = this.userName;
         this.authenticator.password = this.password;
-        this.authenticator.auth().then(()=>{
+        this.authenticator.auth().then(() => {
             this.router.navigate(['/']);
         });
     }
