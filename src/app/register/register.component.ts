@@ -21,6 +21,8 @@ export class RegisterComponent implements OnInit {
     password: string = '';
     passwordAvailability: boolean = true;
 
+    failedToRegister: boolean = false;
+
     ngOnInit(): void {
     }
 
@@ -67,8 +69,8 @@ export class RegisterComponent implements OnInit {
         this.authenticator.password = this.password;
         this.authenticator.auth().then(() => {
             this.router.navigate(['/']);
+        }).catch(() => {
+            this.failedToRegister = true;
         });
     }
-
-
 }

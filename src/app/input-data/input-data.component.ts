@@ -33,7 +33,7 @@ export class InputDataComponent implements OnInit {
     price: number;
     title: string = '';
     category: string = '';
-    categories: string[] = ['a', 'b'];
+    categories: string[] = [];
 
     constructor(
         private http: HttpClient,
@@ -66,7 +66,7 @@ export class InputDataComponent implements OnInit {
             title: this.title,
             category: this.category,
         }, {
-            headers: {
+            params: {
                 sessionId: this.authenticator.sessionId,
                 userName: this.authenticator.userName,
             }

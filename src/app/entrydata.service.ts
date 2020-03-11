@@ -55,7 +55,7 @@ export class EntrydataService {
 
     async getCategories(): Promise<string[]> {
         return <string[]>(await this.http.get('/api/v1/category', {
-            headers: {
+            params: {
                 userName: this.authenticator.userName,
                 sessionId: this.authenticator.sessionId,
             }
@@ -65,37 +65,31 @@ export class EntrydataService {
     async getEntries(year: number, month: number): Promise<Entry[]> {
         return <Entry[]>(await this.http.get('/api/v1/entry', {
             params: {
+                userName: this.authenticator.userName,
+                sessionId: this.authenticator.sessionId,
                 year: String(year),
                 month: String(month),
             },
-            headers: {
-                userName: this.authenticator.userName,
-                sessionId: this.authenticator.sessionId,
-            }
         }).toPromise());
     }
 
     async removeEntry(entry: Entry) {
         return (await this.http.delete('/api/v1/entry', {
             params: {
-                id: String(entry.id)
-            },
-            headers: {
                 userName: this.authenticator.userName,
                 sessionId: this.authenticator.sessionId,
-            }
+                id: String(entry.id)
+            },
         }).toPromise());
     }
 
     async getUserName(userId): Promise<string> {
         return <string>(await this.http.get('/api/v1/username', {
             params: {
-                userId: userId
-            },
-            headers: {
                 userName: this.authenticator.userName,
                 sessionId: this.authenticator.sessionId,
-            }
+                userId: userId
+            },
         }).toPromise());
     }
 
@@ -107,18 +101,16 @@ export class EntrydataService {
     async getMonthInfo(year: number, month: number): Promise<MonthInfo> {
         const res = await this.http.get('/api/v1/month', {
             params: {
+                userName: this.authenticator.userName,
+                sessionId: this.authenticator.sessionId,
                 year: String(year),
                 month: String(month)
             },
-            headers: {
-                userName: this.authenticator.userName,
-                sessionId: this.authenticator.sessionId,
-            }
         }).toPromise();
         return {
-            average: Math.floor(res['avg(price)']) || 0,
-            sum: res['sum(price)'] || 0,
-            count: res['count(*)'] || 0,
+            average: Math.floor(res['avg']) || 0,
+            sum: res['sum'] || 0,
+            count: res['count'] || 0,
         }
     }
 

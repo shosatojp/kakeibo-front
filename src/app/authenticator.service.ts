@@ -24,7 +24,7 @@ export class AuthenticatorService {
     async updateSessionId() {
         return new Promise((res, rej) => {
             this.http.get('/api/v1/reflesh', {
-                headers: {
+                params: {
                     userName: this.userName,
                     sessionId: this.sessionId,
                 },
@@ -75,7 +75,7 @@ export class AuthenticatorService {
                     rej();
                 });
             });
-        } else if (this.expiresOn < new Date().getTime() + 60 * 60 * 1000) {
+        } else if (this.expiresOn < new Date().getTime() + 1 * 60 * 1000) {
             await this.updateSessionId();
         }
     }
@@ -83,7 +83,7 @@ export class AuthenticatorService {
     async logout(): Promise<boolean> {
         return new Promise((res, rej) => {
             this.http.get('/api/v1/logout', {
-                headers: {
+                params: {
                     userName: this.userName,
                     sessionId: this.sessionId,
                 },
