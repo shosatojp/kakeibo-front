@@ -26,9 +26,7 @@ export class LoginComponent implements OnInit {
     }
 
     async login() {
-        this.authenticator.userName = this.userName;
-        this.authenticator.password = this.password;
-        this.authenticator.auth().then(() => {
+        this.authenticator.auth(this.userName, this.password).then(() => {
             this.router.navigate(['/']);
         }).catch(() => {
             this.failedToLogin = true;

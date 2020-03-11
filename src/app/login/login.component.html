@@ -12,9 +12,9 @@
             <input matInput [(ngModel)]="password" type="password">
         </mat-form-field>
     </div>
-    <div>
+    <div style="margin: 10px 0;">
         <mat-chip-list>
-            <mat-chip *ngIf="failedToLogin">ログインに失敗しました</mat-chip>
+            <mat-chip *ngIf="failedToLogin" color="accent" selected>ログインに失敗しました</mat-chip>
         </mat-chip-list>
     </div>
     <div mat-dialog-actions>

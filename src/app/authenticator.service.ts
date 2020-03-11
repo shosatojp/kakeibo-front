@@ -44,18 +44,25 @@ export class AuthenticatorService {
         });
     }
 
-    async auth() {
-        if (!(this.userName)) {
+    async auth(_userName?: string, _password?: string) {
+        const userName = _userName || this.userName;
+        const password = _password || this.password;
+
+        if (!(userName)) {
             this.router.navigate(['/login']);
             throw Error();
+        }
+
+        if (this.expiresOn < new Date().getTime() + 1 * 60 * 1000) {
+            await this.updateSessionId();
         }
 
         if (!this.authed()) {
             return new Promise((res, rej) => {
                 this.http.get('/api/v1/auth', {
                     params: {
-                        userName: this.userName,
-                        password: this.password
+                        userName: userName,
+                        password: password
                     },
                     observe: 'response'
                 }).subscribe(response => {
@@ -63,9 +70,10 @@ export class AuthenticatorService {
                         console.log('authed');
                         this.sessionId = response.body['sessionId'];
                         this.expiresOn = Number(response.body['expiresOn']);
+                        this.userName = userName;
                         localStorage.setItem('sessionId', this.sessionId);
                         localStorage.setItem('expiresOn', String(this.expiresOn));
-                        localStorage.setItem('userName', this.userName);
+                        localStorage.setItem('userName', userName);
                         res();
                     } else {
                         this.router.navigate(['/login']);
@@ -75,8 +83,6 @@ export class AuthenticatorService {
                     rej();
                 });
             });
-        } else if (this.expiresOn < new Date().getTime() + 1 * 60 * 1000) {
-            await this.updateSessionId();
         }
     }
 
@@ -91,6 +97,7 @@ export class AuthenticatorService {
             }).subscribe(response => {
                 if (response.status == 200) {
                     this.sessionId = null;
+                    this.userName = '';
                     localStorage.removeItem('userName');
                     localStorage.removeItem('sessionId');
                     this.router.navigate(['/login']);

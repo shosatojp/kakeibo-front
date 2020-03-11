@@ -10,3 +10,9 @@
 #username {
   margin: 0 10px;
 }
+
+:host {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

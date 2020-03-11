@@ -7,14 +7,14 @@
     </button>
     <span class="spacer"></span>
     <span id="username">{{authenticator.userName}}</span>
-    <button mat-flat-button (click)="openDialog()">追加</button>
+    <button mat-flat-button (click)="openDialog()" *ngIf="authenticator.authed()">追加</button>
 </mat-toolbar>
-<mat-sidenav-container>
-    <mat-sidenav #snav mode="over">
+<mat-sidenav-container style="flex-grow: 1;">
+    <mat-sidenav #snav mode="over" style="min-width: 200px;max-width: 100vw;">
         <mat-nav-list>
             <a mat-list-item (click)="snav.toggle()" routerLink="/">ホーム</a>
-            <a mat-list-item (click)="snav.toggle()" routerLink="/calendar">カレンダー</a>
-            <a mat-list-item (click)="snav.toggle() && authenticator.logout()">ログアウト</a>
+            <a mat-list-item *ngIf="authenticator.authed()" (click)="snav.toggle()" routerLink="/calendar">カレンダー</a>
+            <a mat-list-item *ngIf="authenticator.authed()" (click)="snav.toggle() && authenticator.logout()">ログアウト</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
