@@ -1,7 +1,9 @@
 <div class="center">
     <h2>ユーザー登録</h2>
     <div>
-        <mat-chip color="primary" *ngIf="failedToRegister">ユーザー登録に失敗しました</mat-chip>
+        <mat-chip-list>
+            <mat-chip color="primary" *ngIf="failedToRegister">ユーザー登録に失敗しました</mat-chip>
+        </mat-chip-list>
     </div>
     <div>
         <mat-form-field>
@@ -10,7 +12,9 @@
         </mat-form-field>
     </div>
     <div>
-        <mat-chip color="primary" *ngIf="!userNameAvailability">既に使われているユーザー名です</mat-chip>
+        <mat-chip-list>
+            <mat-chip color="primary" *ngIf="!userNameAvailability">既に使われているユーザー名です</mat-chip>
+        </mat-chip-list>
     </div>
     <div>
         <mat-form-field>
@@ -19,7 +23,9 @@
         </mat-form-field>
     </div>
     <div>
-        <mat-chip color="primary" *ngIf="!passwordAvailability">パスワードは8文字以上である必要があります</mat-chip>
+        <mat-chip-list>
+            <mat-chip color="primary" *ngIf="!passwordAvailability">パスワードは8文字以上である必要があります</mat-chip>
+        </mat-chip-list>
     </div>
     <div mat-dialog-actions>
         <button mat-button color="primary" (click)="register()"

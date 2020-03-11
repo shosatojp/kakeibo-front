@@ -10,7 +10,9 @@ export class AuthenticatorService {
     constructor(
         private http: HttpClient,
         private router: Router
-    ) { }
+    ) {
+        this.expiresOn = 0;
+    }
 
     userName: string = localStorage.getItem('userName') || '';
     password: string = '';
@@ -29,7 +31,8 @@ export class AuthenticatorService {
                     sessionId: this.sessionId,
                 },
                 observe: 'response'
-            }).subscribe(response => {
+            }).subscribe(async response => {
+                console.log('aaa', response);
                 if (response.status == 200) {
                     this.sessionId = response.body['sessionId'];
                     localStorage.setItem('sessionId', this.sessionId);
@@ -37,9 +40,14 @@ export class AuthenticatorService {
                     localStorage.setItem('expiresOn', String(this.expiresOn));
                     res();
                 } else {
+                    await this.logout().catch(() => { });
                     this.router.navigate(['/login']);
                     rej();
                 }
+            }, async error => {
+                await this.logout().catch(() => { });
+                this.router.navigate(['/login']);
+                rej();
             });
         });
     }
@@ -53,8 +61,10 @@ export class AuthenticatorService {
             throw Error();
         }
 
-        if (this.expiresOn < new Date().getTime() + 1 * 60 * 1000) {
-            await this.updateSessionId();
+        if (this.sessionId && this.expiresOn < new Date().getTime() + 1 * 60 * 1000) {
+            await this.updateSessionId().catch(() => {
+                throw Error();
+            });
         }
 
         if (!this.authed()) {
@@ -87,6 +97,9 @@ export class AuthenticatorService {
     }
 
     async logout(): Promise<boolean> {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('sessionId');
+        localStorage.removeItem('expiresOn');
         return new Promise((res, rej) => {
             this.http.get('/api/v1/logout', {
                 params: {
@@ -98,13 +111,13 @@ export class AuthenticatorService {
                 if (response.status == 200) {
                     this.sessionId = null;
                     this.userName = '';
-                    localStorage.removeItem('userName');
-                    localStorage.removeItem('sessionId');
                     this.router.navigate(['/login']);
                     res();
                 } else {
                     rej();
                 }
+            }, error => {
+                rej();
             });
         });
     }

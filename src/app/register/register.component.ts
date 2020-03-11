@@ -27,21 +27,23 @@ export class RegisterComponent implements OnInit {
     }
 
     async checkUserName() {
-        const res = await this.http.get('/api/v1/available/username', {
+        this.http.get('/api/v1/available/username', {
             params: {
                 userName: this.userName,
             }
-        }).toPromise();
-        this.userNameAvailability = res && res['available'];
+        }).toPromise().then(res => {
+            this.userNameAvailability = res && res['available'];
+        });
     }
 
     async checkPassword() {
-        const res = await this.http.get('/api/v1/available/password', {
+        this.http.get('/api/v1/available/password', {
             params: {
                 password: this.password,
             }
-        }).toPromise();
-        this.passwordAvailability = res && res['available'];
+        }).toPromise().then(res => {
+            this.passwordAvailability = res && res['available'];
+        });
     }
 
     async register() {
@@ -60,6 +62,9 @@ export class RegisterComponent implements OnInit {
                     console.log('failed to register');
                     rej();
                 }
+            }, async error => {
+                console.log('failed to register');
+                rej();
             });
         });
     }
