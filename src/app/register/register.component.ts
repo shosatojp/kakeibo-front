@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-register',
@@ -12,6 +13,7 @@ export class RegisterComponent implements OnInit {
     constructor(
         private http: HttpClient,
         private authenticator: AuthenticatorService,
+        private router: Router,
     ) { }
 
     userName: string = '';
@@ -41,23 +43,31 @@ export class RegisterComponent implements OnInit {
     }
 
     async register() {
-        const res = await this.http.get('/api/v1/register', {
-            params: {
-                userName: this.userName,
-                password: this.password,
-            }
-        }).toPromise();
-        if (res && res['completed']) {
-            await this.login();
-        } else {
-            console.log('failed to register');
-        }
+        return new Promise((res, rej) => {
+            this.http.get('/api/v1/register', {
+                params: {
+                    userName: this.userName,
+                    password: this.password,
+                },
+                observe:'response'
+            }).subscribe(async response => {
+                if (response.status == 200) {
+                    await this.login();
+                    res();
+                } else {
+                    console.log('failed to register');
+                    rej();
+                }
+            });
+        });
     }
 
     async login() {
         this.authenticator.userName = this.userName;
         this.authenticator.password = this.password;
-        await this.authenticator.auth()
+        this.authenticator.auth().then(()=>{
+            this.router.navigate(['/']);
+        });
     }
 
 

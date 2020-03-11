@@ -1,5 +1,4 @@
 <div class="center">
-
     <h2>ログイン</h2>
     <div>
         <mat-form-field>
@@ -13,8 +12,13 @@
             <input matInput [(ngModel)]="password" type="password">
         </mat-form-field>
     </div>
+    <div>
+        <mat-chip-list>
+            <mat-chip *ngIf="failedToLogin">ログインに失敗しました</mat-chip>
+        </mat-chip-list>
+    </div>
     <div mat-dialog-actions>
-
         <button mat-button color="primary" (click)="login()" [disabled]="!(userName && password)">ログイン</button>
+        <button mat-button routerLink="/register">ユーザー登録</button>
     </div>
 </div>

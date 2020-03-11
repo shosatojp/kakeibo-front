@@ -6,6 +6,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { AuthenticatorService } from './authenticator.service';
 import { Entry } from './definitions';
 import { MatSidenavContainer, MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,10 +17,8 @@ import { MatSidenavContainer, MatSidenav } from '@angular/material/sidenav';
 export class AppComponent {
     title = 'kakeibo';
     constructor(public dialog: MatDialog,
-        private authenticator: AuthenticatorService) {
-        // authenticator.auth().then(() => {
-            
-        // });
+        public authenticator: AuthenticatorService,
+        private router: Router) {
     }
 
     prevInputData: Entry;

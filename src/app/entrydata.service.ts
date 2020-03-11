@@ -123,19 +123,18 @@ export class EntrydataService {
     }
 
     async updateMonthInfo() {
-        if (!this.authenticator.authed()) {
-            await this.authenticator.auth();
-        }
-        this.currentMonth = await this.getMonthInfo(this.year, this.month);
-        var prev_m, prev_y;
-        if (this.month == 1) {
-            prev_y = this.year - 1;
-            prev_m = 12;
-        } else {
-            prev_y = this.year;
-            prev_m = this.month - 1;
-        }
-        this.prevMonth = await this.getMonthInfo(prev_y, prev_m);
+        this.authenticator.auth().then(async () => {
+            this.currentMonth = await this.getMonthInfo(this.year, this.month);
+            var prev_m, prev_y;
+            if (this.month == 1) {
+                prev_y = this.year - 1;
+                prev_m = 12;
+            } else {
+                prev_y = this.year;
+                prev_m = this.month - 1;
+            }
+            this.prevMonth = await this.getMonthInfo(prev_y, prev_m);
+        }).catch(() => { });
     }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
 import { TooltipComponent } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -13,10 +14,13 @@ export class LoginComponent implements OnInit {
     constructor(
         private http: HttpClient,
         private authenticator: AuthenticatorService,
+        private router: Router,
     ) { }
 
     userName: string = '';
     password: string = '';
+
+    failedToLogin: boolean = false;
 
     ngOnInit(): void {
     }
@@ -24,7 +28,11 @@ export class LoginComponent implements OnInit {
     async login() {
         this.authenticator.userName = this.userName;
         this.authenticator.password = this.password;
-        await this.authenticator.auth()
+        this.authenticator.auth().then(() => {
+            this.router.navigate(['/']);
+        }).catch(() => {
+            this.failedToLogin = true;
+        });
     }
 
 }
