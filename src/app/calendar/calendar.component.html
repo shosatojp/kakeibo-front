@@ -1,5 +1,8 @@
-<button mat-button (click)="showPrevMonth()">先月</button>
-<button mat-button (click)="showNextMonth()">来月</button>
+<div class="buttons">
+    <button id="opendialog" mat-raised-button color="primary" (click)="openDialog()">追加</button>
+    <button mat-button (click)="showPrevMonth()">先月</button>
+    <button mat-button (click)="showNextMonth()">来月</button>
+</div>
 <table>
     <tr>
         <th class="header">{{year}}年 {{month}}月</th>
@@ -8,7 +11,7 @@
     </tr>
     <tr *ngFor="let obj of entrydata.data">
         <td class="header">{{obj.date.getDate()}}日 ({{getDayOfWeek(obj.date)}})</td>
-        <td class="price" *ngFor="let category of obj.categories" (click)="openDialog(obj.date,category.category)">
+        <td class="price" *ngFor="let category of obj.categories" (click)="openDialogWithData(obj.date,category.category)">
             <mat-chip-list *ngFor="let entry of category.entries">
                 <app-entry [entry]="entry"></app-entry>
             </mat-chip-list>
@@ -21,4 +24,3 @@
         <td class="price header">{{sumAll()}}円</td>
     </tr>
 </table>
-<button mat-button (click)="show()">show</button>

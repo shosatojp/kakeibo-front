@@ -1,20 +1,26 @@
-<h2>登録</h2>
-<div>
-    <mat-form-field>
-        <mat-label>ユーザー名</mat-label>
-        <input matInput [(ngModel)]="userName" (input)="checkUserName()">
-    </mat-form-field>
+<div class="center">
+    <h1>家計簿</h1>
+    <h2>ユーザー登録</h2>
+    <div>
+        <mat-form-field>
+            <mat-label>ユーザー名</mat-label>
+            <input matInput [(ngModel)]="userName" (input)="checkUserName()">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-chip color="primary" *ngIf="!userNameAvailability">既に使われているユーザー名です</mat-chip>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>パスワード</mat-label>
+            <input matInput [(ngModel)]="password" type="password" (input)="checkPassword()">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-chip color="primary" *ngIf="!passwordAvailability">パスワードは8文字以上である必要があります</mat-chip>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button color="primary" (click)="register()"
+            [disabled]="!(userName && password && userNameAvailability && passwordAvailability)">登録</button>
+    </div>
 </div>
-<div>
-    <mat-chip color="primary" *ngIf="!userNameAvailability">既に使われているユーザー名です</mat-chip>
-</div>
-<div>
-    <mat-form-field>
-        <mat-label>パスワード</mat-label>
-        <input matInput [(ngModel)]="password" type="password" (input)="checkPassword()">
-    </mat-form-field>
-</div>
-<div>
-    <mat-chip color="primary" *ngIf="!passwordAvailability">パスワードは8文字以上である必要があります</mat-chip>
-</div>
-<button mat-button color="primary" (click)="register()" [disabled]="!(userName && password && userNameAvailability && passwordAvailability)">登録</button>

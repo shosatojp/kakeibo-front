@@ -26,3 +26,12 @@ table {
 
   }
 }
+
+.buttons {
+  display: flex;
+  margin: 10px;
+
+  button {
+    margin: 0 5px;
+  }
+}

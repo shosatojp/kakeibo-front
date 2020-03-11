@@ -25,6 +25,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { TopComponent } from './top/top.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -54,9 +60,16 @@ import { RegisterComponent } from './register/register.component';
         MatTooltipModule,
         MatSnackBarModule,
         MatIconModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
     ],
     providers: [
         AuthenticatorService,
+        {
+            provide: LocationStrategy,
+            useClass: HashLocationStrategy,
+        }
     ],
     bootstrap: [AppComponent]
 })

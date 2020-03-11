@@ -44,7 +44,7 @@ export class InputDataComponent implements OnInit {
         public entrydata: EntrydataService,
         private _snackBar: MatSnackBar) {
         dateAdapter.setLocale('ja-JP');
-        if (data['prevInputData']) {
+        if (data && data['prevInputData']) {
             this.date = new Date(data['prevInputData']['date']);
             this.category = data['prevInputData']['category'];
         } else {

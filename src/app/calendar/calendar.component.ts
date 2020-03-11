@@ -6,6 +6,7 @@ import { Entry } from '../definitions';
 import { InputDataComponent } from '../input-data/input-data.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
     selector: 'app-calendar',
@@ -20,10 +21,24 @@ export class CalendarComponent implements OnInit {
         private authenticator: AuthenticatorService,
         public entrydata: EntrydataService,
         public dialog: MatDialog,
-        private _snackBar: MatSnackBar) {
+        private _snackBar: MatSnackBar,
+        private route: ActivatedRoute,
+        private router: Router) {
     }
 
     ngOnInit(): void {
+        const self = this;
+        this.route.paramMap.subscribe((params: ParamMap) => {
+            self.year = Number(params.get('year'));
+            self.month = Number(params.get('month'));
+        });
+
+        if (!(this.year && this.month)) {
+            const now = new Date();
+            this.year = now.getFullYear();
+            this.month = now.getMonth() + 1;
+        }
+
         this.authenticator.auth().then(async () => {
             await this.show();
         });
@@ -48,10 +63,12 @@ export class CalendarComponent implements OnInit {
     }
     showNextMonth() {
         this.incrementMonth();
+        this.router.navigate(['/calendar', this.year, this.month]);
         this.show();
     }
     showPrevMonth() {
         this.decrementMonth();
+        this.router.navigate(['/calendar', this.year, this.month]);
         this.show();
     }
 
@@ -85,7 +102,7 @@ export class CalendarComponent implements OnInit {
         return '日月火水木金土'[date.getDay()];
     }
 
-    openDialog(date: Date, category: string): void {
+    openDialogWithData(date: Date, category: string): void {
         const dialogRef = this.dialog.open(InputDataComponent, {
             width: '300px',
             data: {
@@ -94,6 +111,15 @@ export class CalendarComponent implements OnInit {
                     category: category
                 }
             }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+        });
+    }
+
+    openDialog(): void {
+        const dialogRef = this.dialog.open(InputDataComponent, {
+            width: '300px',
         });
 
         dialogRef.afterClosed().subscribe(result => {

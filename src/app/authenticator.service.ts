@@ -18,13 +18,15 @@ export class AuthenticatorService {
     }
 
     async auth() {
-        console.log('auth')
-        const res = await this.http.get('/api/v1/auth', {
-            params: {
-                userName: this.userName,
-                password: this.password
-            }
-        }).toPromise();
-        this.sessionId = res['sessionId'];
+        if (!this.authed()) {
+            console.log('auth')
+            const res = await this.http.get('/api/v1/auth', {
+                params: {
+                    userName: this.userName,
+                    password: this.password
+                }
+            }).toPromise();
+            this.sessionId = res['sessionId'];
+        }
     }
 }

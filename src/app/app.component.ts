@@ -5,6 +5,7 @@ import { InputDataComponent } from './input-data/input-data.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { AuthenticatorService } from './authenticator.service';
 import { Entry } from './definitions';
+import { MatSidenavContainer, MatSidenav } from '@angular/material/sidenav';
 
 
 @Component({

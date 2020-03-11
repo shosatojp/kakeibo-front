@@ -1,6 +1,21 @@
-<app-register></app-register>
-<app-login></app-login>
-<app-top></app-top>
-<app-calendar [month]="3" [year]="2020"></app-calendar>
-<button mat-raised-button (click)="openDialog()">登録</button>
-<router-outlet></router-outlet>
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="snav.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <button mat-flat-button routerLink="/" color="primary">
+        <h1>家計簿</h1>
+    </button>
+    <span class="spacer"></span>
+    <button mat-flat-button (click)="openDialog()">追加</button>
+</mat-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav #snav mode="over">
+        <mat-nav-list>
+            <a mat-list-item (click)="snav.toggle()" routerLink="/">ホーム</a>
+            <a mat-list-item (click)="snav.toggle()" routerLink="/calendar">カレンダー</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

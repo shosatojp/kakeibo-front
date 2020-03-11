@@ -1,0 +1,15 @@
+:host {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.center {
+  align-self: center;
+}
+
+button#opendialog {
+  width: 100%;
+}
