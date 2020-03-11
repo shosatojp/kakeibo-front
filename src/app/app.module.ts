@@ -22,12 +22,18 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { TopComponent } from './top/top.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 @NgModule({
     declarations: [
         AppComponent,
         CalendarComponent,
         InputDataComponent,
-        EntryComponent
+        EntryComponent,
+        TopComponent,
+        LoginComponent,
+        RegisterComponent
     ],
     imports: [
         BrowserModule,

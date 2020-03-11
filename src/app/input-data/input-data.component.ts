@@ -73,7 +73,7 @@ export class InputDataComponent implements OnInit {
         }).toPromise();
 
         this.price = undefined;
-        this.category = '';
+        this.title = '';
 
         await this.entrydata.update(this.date.getFullYear(), this.date.getMonth() + 1);
 

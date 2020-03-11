@@ -13,6 +13,10 @@ export class AuthenticatorService {
     password: string = 'aaa';
     sessionId: string;
 
+    authed(): boolean {
+        return !!this.sessionId;
+    }
+
     async auth() {
         console.log('auth')
         const res = await this.http.get('/api/v1/auth', {

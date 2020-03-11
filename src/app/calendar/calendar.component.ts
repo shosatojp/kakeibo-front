@@ -24,7 +24,9 @@ export class CalendarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // this.show();
+        this.authenticator.auth().then(async () => {
+            await this.show();
+        });
     }
 
     incrementMonth() {

@@ -16,9 +16,9 @@ export class AppComponent {
     title = 'kakeibo';
     constructor(public dialog: MatDialog,
         private authenticator: AuthenticatorService) {
-        authenticator.auth().then(() => {
+        // authenticator.auth().then(() => {
             
-        });
+        // });
     }
 
     prevInputData: Entry;

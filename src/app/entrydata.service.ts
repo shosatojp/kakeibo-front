@@ -3,6 +3,13 @@ import { Entry } from './definitions';
 import { AuthenticatorService } from './authenticator.service';
 import { HttpClient } from '@angular/common/http';
 
+interface MonthInfo {
+    count: number;
+    average: number;
+    sum: number;
+};
+
+
 @Injectable({
     providedIn: 'root'
 })
@@ -22,6 +29,11 @@ export class EntrydataService {
     categories: string[] = [];
 
     async update(year: number, month: number) {
+        this.updateCalendar(year, month);
+        this.updateMonthInfo();
+    }
+
+    async updateCalendar(year: number, month: number) {
         const entries = await this.getEntries(year, month);
         const categories = this.categories = await this.getCategories();
         const first_day = new Date(year, month - 1, 1);
@@ -54,7 +66,7 @@ export class EntrydataService {
         return <Entry[]>(await this.http.get('/api/v1/entry', {
             params: {
                 year: String(year),
-                month: String(month)
+                month: String(month),
             },
             headers: {
                 userName: this.authenticator.userName,
@@ -86,4 +98,44 @@ export class EntrydataService {
             }
         }).toPromise());
     }
+
+    year: number = new Date().getFullYear();
+    month: number = new Date().getMonth() + 1;
+    currentMonth: MonthInfo;
+    prevMonth: MonthInfo;
+
+    async getMonthInfo(year: number, month: number): Promise<MonthInfo> {
+        const res = await this.http.get('/api/v1/month', {
+            params: {
+                year: String(year),
+                month: String(month)
+            },
+            headers: {
+                userName: this.authenticator.userName,
+                sessionId: this.authenticator.sessionId,
+            }
+        }).toPromise();
+        return {
+            average: Math.floor(res['avg(price)']) || 0,
+            sum: res['sum(price)'] || 0,
+            count: res['count(*)'] || 0,
+        }
+    }
+
+    async updateMonthInfo() {
+        if (!this.authenticator.authed()) {
+            await this.authenticator.auth();
+        }
+        this.currentMonth = await this.getMonthInfo(this.year, this.month);
+        var prev_m, prev_y;
+        if (this.month == 1) {
+            prev_y = this.year - 1;
+            prev_m = 12;
+        } else {
+            prev_y = this.year;
+            prev_m = this.month - 1;
+        }
+        this.prevMonth = await this.getMonthInfo(prev_y, prev_m);
+    }
+
 }
