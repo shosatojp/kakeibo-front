@@ -4,10 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --watch --poll 500 --port 8081",
-    "build": "ng build --watch --poll 500",
+    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "watch": "ng build --watch --poll 500"
   },
   "private": true,
   "dependencies": {
