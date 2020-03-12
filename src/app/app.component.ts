@@ -23,10 +23,13 @@ export class AppComponent {
     }
 
     prevInputData: Entry;
-    openDialog(): void {
+    openDialog(exit: boolean = false): void {
         const dialogRef = this.dialog.open(InputDataComponent, {
             width: '300px',
-            data: { prevInputData: this.prevInputData }
+            data: {
+                prevInputData: this.prevInputData,
+                exit: exit
+            }
         });
 
         dialogRef.afterClosed().subscribe(result => {

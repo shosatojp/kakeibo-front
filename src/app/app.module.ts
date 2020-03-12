@@ -31,6 +31,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { SettingsComponent } from './settings/settings.component';
 import { AnnualReportComponent } from './annual-report/annual-report.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { AnnualReportComponent } from './annual-report/annual-report.component';
         LoginComponent,
         RegisterComponent,
         SettingsComponent,
-        AnnualReportComponent
+        AnnualReportComponent,
+        NotFoundComponent
     ],
     imports: [
         BrowserModule,

@@ -35,6 +35,8 @@ export class InputDataComponent implements OnInit {
     category: string = '';
     categories: string[] = [];
 
+    exit: boolean = false;
+
     constructor(
         private http: HttpClient,
         private authenticator: AuthenticatorService,
@@ -44,9 +46,12 @@ export class InputDataComponent implements OnInit {
         public entrydata: EntrydataService,
         private _snackBar: MatSnackBar) {
         dateAdapter.setLocale('ja-JP');
-        if (data && data['prevInputData']) {
-            this.date = new Date(data['prevInputData']['date']);
-            this.category = data['prevInputData']['category'];
+        if (data) {
+            if (data['prevInputData']) {
+                this.date = new Date(data['prevInputData']['date']);
+                this.category = data['prevInputData']['category'];
+            }
+            this.exit = data['exit'];
         } else {
             this.date = new Date();
         }
@@ -73,6 +78,9 @@ export class InputDataComponent implements OnInit {
         await this.entrydata.update(this.date.getFullYear(), this.date.getMonth() + 1);
 
         this.openSnackBar('登録しました', 'OK');
+
+        if (this.exit)
+            this.dialogRef.close();
     }
 
 

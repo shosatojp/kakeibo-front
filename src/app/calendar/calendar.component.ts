@@ -109,17 +109,9 @@ export class CalendarComponent implements OnInit {
                 prevInputData: {
                     date: date.getTime(),
                     category: category
-                }
+                },
+                exit: true
             }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-        });
-    }
-
-    openDialog(): void {
-        const dialogRef = this.dialog.open(InputDataComponent, {
-            width: '300px',
         });
 
         dialogRef.afterClosed().subscribe(result => {

@@ -48,11 +48,11 @@ export class AnnualReportComponent implements OnInit {
     }
 
     async showPrevYear(){
-        this.router.navigate(['/calendar', --this.year]);
+        this.router.navigate(['/annual-report', --this.year]);
         this.update();
     }
     async showNextYear(){
-        this.router.navigate(['/calendar', ++this.year]);
+        this.router.navigate(['/annual-report', ++this.year]);
         this.update();
     }
 

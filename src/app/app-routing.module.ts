@@ -6,6 +6,7 @@ import { TopComponent } from './top/top.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AnnualReportComponent } from './annual-report/annual-report.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -30,12 +31,20 @@ const routes: Routes = [
         component: SettingsComponent,
     },
     {
+        path: 'annual-report/:year',
+        component: AnnualReportComponent,
+    },
+    {
         path: 'annual-report',
         component: AnnualReportComponent,
     },
     {
         path: '',
-        component: TopComponent
+        component: TopComponent,
+    },
+    {
+        path: '**',
+        component: NotFoundComponent,
     },
 ];
 
