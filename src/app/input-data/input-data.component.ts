@@ -50,6 +50,8 @@ export class InputDataComponent implements OnInit {
             if (data['prevInputData']) {
                 this.date = new Date(data['prevInputData']['date']);
                 this.category = data['prevInputData']['category'];
+            } else {
+                this.date = new Date();
             }
             this.exit = data['exit'];
         } else {

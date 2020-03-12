@@ -30,5 +30,7 @@
     <div mat-dialog-actions>
         <button mat-button color="primary" (click)="register()"
             [disabled]="!(userName && password && userNameAvailability && passwordAvailability)">登録</button>
+        <div class="or">または</div>
+        <button mat-button routerLink="/login">ログイン</button>
     </div>
 </div>
