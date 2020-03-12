@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticatorService } from '../authenticator.service';
 import { EntrydataService } from '../entrydata.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Entry } from '../definitions';
 import { InputDataComponent } from '../input-data/input-data.component';
-
 
 @Component({
     selector: 'app-top',
@@ -19,7 +18,8 @@ export class TopComponent implements OnInit {
         private authenticator: AuthenticatorService,
         public entrydata: EntrydataService,
         public dialog: MatDialog,
-    ) { }
+    ) {
+    }
 
     ngOnInit(): void {
         this.entrydata.updateMonthInfo();
