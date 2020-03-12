@@ -60,17 +60,12 @@ export class InputDataComponent implements OnInit {
     }
 
     async submit() {
-        const res = await this.http.post('/api/v1/entry', {
+        await this.entrydata.postEntry({
             date: this.date.getTime(),
             price: this.price,
             title: this.title,
             category: this.category,
-        }, {
-            params: {
-                sessionId: this.authenticator.sessionId,
-                userName: this.authenticator.userName,
-            }
-        }).toPromise();
+        });
 
         this.price = undefined;
         this.title = '';

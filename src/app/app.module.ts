@@ -29,6 +29,8 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { SettingsComponent } from './settings/settings.component';
+import { AnnualReportComponent } from './annual-report/annual-report.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { MatListModule } from '@angular/material/list';
         EntryComponent,
         TopComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        SettingsComponent,
+        AnnualReportComponent
     ],
     imports: [
         BrowserModule,

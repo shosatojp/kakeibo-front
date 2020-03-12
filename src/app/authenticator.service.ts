@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -119,6 +119,37 @@ export class AuthenticatorService {
             }, error => {
                 rej();
             });
+        });
+    }
+
+    async httpRequest(method: 'get' | 'post' | 'delete' | 'put', url: string, body: any, params: Object = {}) {
+        params['userName'] = this.userName;
+        params['sessionId'] = this.sessionId;
+
+        const param_list: string[] = [];
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                param_list.push(`${key}=${params[key]}`);
+            }
+        }
+        if (param_list.length) {
+            url += `?${param_list.join('&')}`;
+        }
+
+        const options = {
+            method: method,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            redirect: "follow",
+            referrer: "no-referrer",
+        };
+        if (body)
+            options['body'] = JSON.stringify(body);
+
+        return fetch(url, <RequestInit>options).then(async response => {
+            const text = await response.text();
+            return text && JSON.parse(text);
         });
     }
 }

@@ -8,3 +8,12 @@ export interface Entry {
     category: string,
     createdBy: number,
 };
+
+export interface MonthInfo {
+    year: number;
+    month: number;
+    count: number;
+    average: number;
+    sum: number;
+    categories: { [category: string]: { sum: number }; };
+};

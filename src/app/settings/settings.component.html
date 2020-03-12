@@ -1,0 +1,14 @@
+<div class="container">
+    <h3>データ</h3>
+
+    <div class="button-row">
+        <button mat-raised-button (click)="exportData()">エクスポート</button>
+        <div>
+            <input type="file" style="display: none" #fileInput accept="application/json"
+                (change)="onChangeFileInput()" />
+            <button mat-raised-button (click)="onClickFileInputButton()">
+                インポート
+            </button>
+        </div>
+    </div>
+</div>

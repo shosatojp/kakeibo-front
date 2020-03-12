@@ -1,0 +1,26 @@
+
+<div class="buttons">
+    <button mat-button (click)="showPrevYear()">昨年</button>
+    <button mat-button (click)="showNextYear()">来年</button>
+</div>
+<table>
+    <tr>
+        <th>{{year}}年</th>
+        <th class="header" *ngFor="let c of categories">{{c}}</th>
+        <th class="header">合計</th>
+    </tr>
+    <tr *ngFor="let m of data">
+        <td class="header">{{m.month}}月</td>
+        <td class="price" *ngFor="let c of categories">
+            {{m.categories[c] ? m.categories[c].sum : 0}}円
+        </td>
+        <td class="header price">{{m.sum}}円</td>
+    </tr>
+    <tr>
+        <td class="header">合計</td>
+        <td class="header price" *ngFor="let c of categories">
+            {{sumCategory(c)}}円
+        </td>
+        <td class="header price">{{sumAll()}}円</td>
+    </tr>
+</table>

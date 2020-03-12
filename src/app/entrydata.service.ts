@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Entry } from './definitions';
+import { Entry, MonthInfo } from './definitions';
 import { AuthenticatorService } from './authenticator.service';
 import { HttpClient } from '@angular/common/http';
-
-interface MonthInfo {
-    count: number;
-    average: number;
-    sum: number;
-};
-
 
 @Injectable({
     providedIn: 'root'
@@ -99,18 +92,16 @@ export class EntrydataService {
     prevMonth: MonthInfo;
 
     async getMonthInfo(year: number, month: number): Promise<MonthInfo> {
-        const res = await this.http.get('/api/v1/month', {
-            params: {
-                userName: this.authenticator.userName,
-                sessionId: this.authenticator.sessionId,
-                year: String(year),
-                month: String(month)
-            },
-        }).toPromise();
+        const res = await this.authenticator.httpRequest('get', '/api/v1/month', null, {
+            year: String(year),
+            month: String(month)
+        });
         return {
             average: Math.floor(res['avg']) || 0,
             sum: res['sum'] || 0,
             count: res['count'] || 0,
+            month, year,
+            categories: res['categories']
         }
     }
 
@@ -129,4 +120,13 @@ export class EntrydataService {
         }).catch(() => { });
     }
 
+
+    async postEntry(data: {
+        date: number,
+        price: number,
+        title: string,
+        category: string,
+    }) {
+        return this.authenticator.httpRequest('post', '/api/v1/entry', data);
+    }
 }
