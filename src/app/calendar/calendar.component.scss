@@ -1,5 +1,11 @@
+.center {
+  margin: 10px;
+}
+
 table {
   margin: 0 auto;
+  border-collapse: collapse;
+  border-spacing: 0px;
 
   tr {
     td {
@@ -7,25 +13,32 @@ table {
       max-width: 200px;
       min-width: 100px;
       height: 50px;
-      border-top: #222;
+      border-top: #333 1px solid;
+      padding: 10px;
       text-align: center;
+
+      .price {
+        text-align: right;
+      }
+
+      .header {
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+
     }
 
-    td.price {
-      text-align: right;
-    }
+    th {
+      padding: 0;
 
-    td.header {
-      font-weight: bold;
-      font-size: 1.1em;
-    }
-
-    th.header {
-      font-weight: bold;
-      font-size: 1.1em;
+      .header {
+        font-weight: bold;
+        font-size: 1.1em;
+      }
     }
 
   }
+
 }
 
 .buttons {

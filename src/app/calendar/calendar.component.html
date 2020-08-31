@@ -1,25 +1,29 @@
-<div class="buttons">
-    <button mat-button (click)="showPrevMonth()">先月</button>
-    <button mat-button (click)="showNextMonth()">来月</button>
+<div class="center">
+    <div class="buttons">
+        <button mat-button (click)="showPrevMonth()">先月</button>
+        <button mat-button (click)="showNextMonth()">来月</button>
+    </div>
+
+    <table>
+        <tr>
+            <th class="header">{{year}}年 {{month}}月</th>
+            <th class="header" *ngFor="let category of entrydata.categories">{{category}}</th>
+            <th class="header">合計</th>
+        </tr>
+        <tr *ngFor="let obj of entrydata.data">
+            <td class="header">{{obj.date.getDate()}}日 ({{getDayOfWeek(obj.date)}})</td>
+            <td class="price" *ngFor="let category of obj.categories"
+                (click)="openDialogWithData(obj.date,category.category)">
+                <mat-chip-list>
+                    <app-entry *ngFor="let entry of category.entries" [entry]="entry"></app-entry>
+                </mat-chip-list>
+            </td>
+            <td class="price header">{{sumDate(obj.date.getDate())}}円</td>
+        </tr>
+        <tr>
+            <td class="header">合計</td>
+            <td class="price header" *ngFor="let category of entrydata.categories">{{sumCategory(category)}}円</td>
+            <td class="price header">{{sumAll()}}円</td>
+        </tr>
+    </table>
 </div>
-<table>
-    <tr>
-        <th class="header">{{year}}年 {{month}}月</th>
-        <th class="header" *ngFor="let category of entrydata.categories">{{category}}</th>
-        <th class="header">合計</th>
-    </tr>
-    <tr *ngFor="let obj of entrydata.data">
-        <td class="header">{{obj.date.getDate()}}日 ({{getDayOfWeek(obj.date)}})</td>
-        <td class="price" *ngFor="let category of obj.categories" (click)="openDialogWithData(obj.date,category.category)">
-            <mat-chip-list *ngFor="let entry of category.entries">
-                <app-entry [entry]="entry"></app-entry>
-            </mat-chip-list>
-        </td>
-        <td class="price header">{{sumDate(obj.date.getDate())}}円</td>
-    </tr>
-    <tr>
-        <td class="header">合計</td>
-        <td class="price header" *ngFor="let category of entrydata.categories">{{sumCategory(category)}}円</td>
-        <td class="price header">{{sumAll()}}円</td>
-    </tr>
-</table>

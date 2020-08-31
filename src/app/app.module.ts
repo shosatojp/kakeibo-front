@@ -28,11 +28,14 @@ import { RegisterComponent } from './register/register.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
+import { MatListModule, MatList } from '@angular/material/list';
 import { SettingsComponent } from './settings/settings.component';
 import { AnnualReportComponent } from './annual-report/annual-report.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-
+import { MatBadgeModule } from '@angular/material/badge';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CategorySettingsComponent } from './category-settings/category-settings.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
     declarations: [
@@ -45,7 +48,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
         RegisterComponent,
         SettingsComponent,
         AnnualReportComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        CategorySettingsComponent
     ],
     imports: [
         BrowserModule,
@@ -69,6 +73,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
         MatToolbarModule,
         MatSidenavModule,
         MatListModule,
+        MatBadgeModule,
+        DragDropModule,
+        MatRadioModule,
     ],
     providers: [
         AuthenticatorService,

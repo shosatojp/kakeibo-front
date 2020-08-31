@@ -10,7 +10,13 @@ export class EntrydataService {
 
     constructor(
         private authenticator: AuthenticatorService,
-        private http: HttpClient) { }
+        private http: HttpClient,
+    ) {
+        this.authenticator.auth().then(async () => {
+            this.categories = await this.getCategories();
+        });
+
+    }
 
     data: {
         date: Date,
@@ -54,6 +60,8 @@ export class EntrydataService {
             }
         }).toPromise())['categories'];
     }
+
+    
 
     async getEntries(year: number, month: number): Promise<Entry[]> {
         return <Entry[]>(await this.http.get('/api/v1/entry', {

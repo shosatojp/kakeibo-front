@@ -4,6 +4,9 @@ import { AuthenticatorService } from '../authenticator.service';
 import { Entry } from '../definitions';
 import { EntrydataService } from '../entrydata.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CategorySettingsComponent } from '../category-settings/category-settings.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-settings',
@@ -14,12 +17,19 @@ export class SettingsComponent implements OnInit {
 
     constructor(
         private http: HttpClient,
-        private authenticator: AuthenticatorService,
-        private entrydata: EntrydataService,
+        public authenticator: AuthenticatorService,
+        public entrydata: EntrydataService,
         private _snackBar: MatSnackBar,
+        private dialog: MatDialog,
     ) { }
 
+    categories: string[] = [];
+
+
     ngOnInit(): void {
+        this.entrydata.getCategories().then((data) => {
+            this.categories = data;
+        });
     }
 
     download(filename: string, data: any) {
@@ -76,7 +86,24 @@ export class SettingsComponent implements OnInit {
     }
 
     async importData(file: File) {
-        const entries = JSON.parse(await this.readFile(file));
+        var entries;
+        if (file.name.endsWith('.json')) {
+            entries = JSON.parse(await this.readFile(file));
+        } else if (file.name.endsWith('.csv')) {
+            const txt = await this.readFile(file);
+            entries = txt.split('\n').slice(1).map(e => {
+                const line = e.split(',');
+                return {
+                    title: line[0],
+                    price: line[1],
+                    date: line[2],
+                    category: line[3],
+                    description: line[4],
+                };
+            });
+        } else {
+            throw new Error();
+        }
         for (const entry of entries) {
             const res = await this.entrydata.postEntry(entry)
                 .then(() => true).catch(() => false);
@@ -107,4 +134,15 @@ export class SettingsComponent implements OnInit {
         });
     }
 
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.entrydata.categories, event.previousIndex, event.currentIndex);
+    }
+
+    openCategorySettings(category: string): void {
+        const dialogRef = this.dialog.open(CategorySettingsComponent, {
+            width: '300px',
+        });
+
+        dialogRef.afterClosed().subscribe(result => { });
+    }
 }

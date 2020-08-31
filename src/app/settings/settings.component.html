@@ -1,6 +1,5 @@
 <div class="container">
     <h3>データ</h3>
-
     <div class="button-row">
         <button mat-raised-button (click)="exportData()">エクスポート</button>
         <div>
@@ -11,4 +10,13 @@
             </button>
         </div>
     </div>
+</div>
+
+<div class="container">
+    <h3>分類を並び替え</h3>
+    <mat-list cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+        <mat-list-item class="example-box" *ngFor="let category of entrydata.categories" cdkDrag
+            (click)="openCategorySettings(category)">{{category}}
+        </mat-list-item>
+    </mat-list>
 </div>
